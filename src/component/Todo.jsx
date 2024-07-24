@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import  { addTodo, deleteTodo, editTodo } from "../component/redux/TodoSlice";
+import { addTodo, deleteTodo, editTodo } from "../component/redux/TodoSlice";
 import { FiEdit } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 import "./Todo.css";
@@ -16,70 +16,75 @@ const Todo = () => {
     e.preventDefault();
     if (text.trim()) {
       dispatch(addTodo(text));
-      setText('');
-
+      setText("");
     }
   };
 
   const handleEditTodo = (id) => {
     dispatch(editTodo({ id, text: editText }));
     setIsEditText(null);
-    setEditText('');
+    setEditText("");
   };
 
   return (
-    <div>
-      <div className="header">
-        <h1>ToDo List</h1>
-      </div>
+    <div className="todo-body">
       <div>
-        <form action="" onSubmit={handleSubmit}>
-          <input
-            className="addTodo ms-5 p-2"
-            type="text"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-          />
-          <button className="addBtn ms-2 rounded" type="submit">
-            Add
-          </button>
-          <div className="todoList">
-            <ul>
-              {todos.map((list) => (
-                <li className="card todoCard" key={list.id}>
-                  {iseditText === list.id ? (
-                    <>
-                      <input
-                        type="text"
-                        value={editText}
-                        onChange={(e) => setEditText(e.target.value)}
-                      />
-                      <button className="saveBtn" onClick={() => handleEditTodo(list.id)}>
-                        Save
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <div>{list.text}</div>
-                      <span>
-                        <FiEdit
-                          className="edit ms-2"
-                          onClick={() => {setIsEditText(list.id)
-                            setEditText(list.text)
-                          }}
+        <div className="header">
+          <h1>ToDo List</h1>
+        </div>
+        <div>
+          <form action="" onSubmit={handleSubmit}>
+            <input
+              className="addTodo ms-5 p-2"
+              type="text"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+            />
+            <button className="addBtn ms-2 rounded" type="submit">
+              Add
+            </button>
+            <div className="todoList">
+              <ul>
+                {todos.map((list) => (
+                  <li className="card todoCard" key={list.id}>
+                    {iseditText === list.id ? (
+                      <>
+                        <input
+                          type="text"
+                          value={editText}
+                          onChange={(e) => setEditText(e.target.value)}
                         />
-                        <MdDelete
-                          className="deleteTodo"
-                          onClick={() => dispatch(deleteTodo(list.id))}
-                        />
-                      </span>
-                    </>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </form>
+                        <button
+                          className="saveBtn"
+                          onClick={() => handleEditTodo(list.id)}
+                        >
+                          Save
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <div>{list.text}</div>
+                        <span>
+                          <FiEdit
+                            className="edit ms-2"
+                            onClick={() => {
+                              setIsEditText(list.id);
+                              setEditText(list.text);
+                            }}
+                          />
+                          <MdDelete
+                            className="deleteTodo"
+                            onClick={() => dispatch(deleteTodo(list.id))}
+                          />
+                        </span>
+                      </>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
